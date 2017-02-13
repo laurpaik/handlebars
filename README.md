@@ -100,7 +100,7 @@ following:
   - once, but the stuff inside {{log this}} and stuff gets run as many times as there are books
 -   [Draw the order in which each separate file is accessed.](https://goo.gl/photos/J6cPsgmj6jhqFu8j7)
   - index.js --> books/events.js --> books/api.js --> feeds into books/ui.js... upon success we apply a template to data.books ... and then we append showBooksHtml to the content class.
--   Be able to explain in plain english what is happening. [Look at the commented out stuff! click view raw](https://github.com/laurpaik/handlebars/tree/training/assets/scripts/books/ui.js)
+-   Be able to explain in plain english what is happening. [Look at the commented out stuff!](https://github.com/laurpaik/handlebars/tree/training/assets/scripts/books/ui.js)
 -   What happens if you move the line that defines `showBooksTemplate`?
   - I mean... it's defined up there and then used pretty much immediately, so our linter will yell at us and it won't be defined in getBooksSuccess because it reads top-down
 -   Uncomment the line `{{> partial}}` from `book-listing.handlebars`, what does it do?
@@ -179,6 +179,9 @@ information is displayed within an `ul` with a `data-id` attribute.
 -   When a user clicks on the `Remove` button for any specific book, it should
 hide the book's information
 -   Add a prompt that checks if the user is sure they want to remove the book
+  - We use event delegation when we need to add an event to elements that are not on the page!!!
+  - look at the solution branch tbh
+  - You're confused and you know it
 
 ## Challenge: API
 
