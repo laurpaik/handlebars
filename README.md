@@ -93,14 +93,31 @@ have a chance to look at it.  In your squads discuss and consider the
 following:
 
 -   What is happening in the `scripts/index.js` file?
+  - Requires all the files we need
+  - Adds handlers for auth and book stuff to the site
+    - pretty much an organizational thing
 -   How many times is `book-listing.handlebars` run?
--   Draw the order in which each separate file is accessed.
--   Be able to explain in plain english what is happening.
+  - once, but the stuff inside {{log this}} and stuff gets run as many times as there are books
+-   [Draw the order in which each separate file is accessed.](https://goo.gl/photos/J6cPsgmj6jhqFu8j7)
+  - index.js --> books/events.js --> books/api.js --> feeds into books/ui.js... upon success we apply a template to data.books ... and then we append showBooksHtml to the content class.
+-   Be able to explain in plain english what is happening. [Look at the commented out stuff! click view raw](https://github.com/laurpaik/handlebars/tree/training/assets/scripts/books/ui.js)
 -   What happens if you move the line that defines `showBooksTemplate`?
+  - I mean... it's defined up there and then used pretty much immediately, so our linter will yell at us and it won't be defined in getBooksSuccess because it reads top-down
 -   Uncomment the line `{{> partial}}` from `book-listing.handlebars`, what does it do?
+  - includes assets/scripts/templates/partial.handlebars into the loop
+  - The little carrot in front of 'partial' is the syntax to call a partial
 -   Experiment with `console.log()` and `debugger` to aid in your understanding.
+  - it's .handlebars, not .js!
+  - just say 'log' and it'll do the thing
+  - Why do we use `data-id` to put the book id?
+    - We want to guarantee uniqueness
+    - When we do ids in HTML, we want to know EXACTLY what it is
+    - When we do dynamic ids we do `data-id`!
+    - usually it means the resource is the id!
+    - we're in a loop, so `id=book` is dangerous lol
+    - HTML won't tell you when stuff breaks!
 
-Make sure to note any questions you come acorss and we'll go over them as a
+Make sure to note any questions you come across and we'll go over them as a
 class.
 
 ## Discussion: What was discovered
@@ -110,6 +127,40 @@ discovered trying to answer the questions.
 
 What do you think would happen if I tried to add an event handler to something
 contained in my template before it was rendered?
+- we have dynamic content
+- You can use jQuery to use event delegation
+- example:
+``` js
+const logOwnId = (event) => {
+  event.preventDefault();
+  console.log($(event.target).data("id"));
+};
+```
+and then under addHandlers:
+``` js
+$(".clickable").on("click", logOwnId);
+```
+- Where do we put it?
+  - throw it in the ui.js file?
+    - click event works, value doesn't show up
+    - don't be messy
+    - should prob throw it in the events.js file since that's where all the events are haha
+  - clicks go from baby to parent
+  - prevent bubbling? tell the parent element to click:
+``` js
+$("#clickable").on("click", ".clickable", logOwnId);
+```
+  - we're applying a click event to the #content element for when any of its children with the class "clickable" gets clicked!
+  - Listen to yo parents!
+  - but now we have that bug that returns undefined in the console....
+  ``` js
+  const logOwnId = (event) => {
+    event.preventDefault();
+    console.log($(event.target).parent().data("id"));
+  };
+  ```
+  - use jQuery to traverse the DOM!
+  - find the littlest child and go up from there until you find the id! :)
 
 Why do you think we do not commonly use a static value for an HTML ID attribute in templates?
 
@@ -133,7 +184,7 @@ hide the book's information
 
 The `Remove` button only removes the book from the page, not from the database.
 
-- Make a `Delete` request to the API when the `Remove` button is clicked and 
+- Make a `Delete` request to the API when the `Remove` button is clicked and
 upon success it should remove the book from the page.
 
 ## Additional Resources
