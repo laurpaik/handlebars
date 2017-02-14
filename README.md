@@ -153,12 +153,12 @@ $("#clickable").on("click", ".clickable", logOwnId);
   - we're applying a click event to the #content element for when any of its children with the class "clickable" gets clicked!
   - Listen to yo parents!
   - but now we have that bug that returns undefined in the console....
-  ```javascript
+```javascript
   const logOwnId = (event) => {
     event.preventDefault();
     console.log($(event.target).parent().data("id"));
   };
-  ```
+```
   - use jQuery to traverse the DOM!
   - find the littlest child and go up from there until you find the id! :)
 
