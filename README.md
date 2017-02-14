@@ -130,7 +130,7 @@ contained in my template before it was rendered?
 - we have dynamic content
 - You can use jQuery to use event delegation
 - example:
-``` js
+```javascript
 const logOwnId = (event) => {
   event.preventDefault();
   console.log($(event.target).data("id"));
@@ -147,13 +147,13 @@ $(".clickable").on("click", logOwnId);
     - should prob throw it in the events.js file since that's where all the events are haha
   - clicks go from baby to parent
   - prevent bubbling? tell the parent element to click:
-``` js
+```javascript
 $("#clickable").on("click", ".clickable", logOwnId);
 ```
   - we're applying a click event to the #content element for when any of its children with the class "clickable" gets clicked!
   - Listen to yo parents!
   - but now we have that bug that returns undefined in the console....
-  ``` js
+  ```javascript
   const logOwnId = (event) => {
     event.preventDefault();
     console.log($(event.target).parent().data("id"));
